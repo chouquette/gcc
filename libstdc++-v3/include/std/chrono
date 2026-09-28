@@ -57,7 +57,7 @@
 # include <bits/stl_algo.h>     // upper_bound
 # include <bits/range_access.h> // begin/end for arrays
 #endif
-#if __cpp_lib_chrono >= 201803L // C++20 && HOSTED && USE_CXX11_ABI
+#if __cpp_lib_chrono >= 201803L
 # include <sstream>
 # include <string>
 # include <vector>

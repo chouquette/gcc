@@ -691,6 +691,11 @@
 #  if defined(__glibcxx_want_all) || defined(__glibcxx_want_chrono)
 #   define __cpp_lib_chrono 201907L
 #  endif
+# elif (__cplusplus >= 202002L) && _GLIBCXX_HOSTED && (!_GLIBCXX_USE_DUAL_ABI)
+#  define __glibcxx_chrono 201803L
+#  if defined(__glibcxx_want_all) || defined(__glibcxx_want_chrono)
+#   define __cpp_lib_chrono 201803L
+#  endif
 # elif (__cplusplus >= 201703L) && _GLIBCXX_HOSTED
 #  define __glibcxx_chrono 201611L
 #  if defined(__glibcxx_want_all) || defined(__glibcxx_want_chrono)
