@@ -21922,10 +21922,17 @@ rs6000_xcoff_section_type_flags (tree decl, const char *name, int reloc)
   else if ((flags & SECTION_CODE) != 0)
     align = MAX ((DECL_ALIGN (decl) / BITS_PER_UNIT), 32);
   else
-    /* Increase alignment of large objects if not already stricter.  */
-    align = MAX ((DECL_ALIGN (decl) / BITS_PER_UNIT),
-		 int_size_in_bytes (TREE_TYPE (decl)) > MIN_UNITS_PER_WORD
-		 ? UNITS_PER_FP_WORD : MIN_UNITS_PER_WORD);
+    {
+      /* Increase alignment of large objects if not already stricter.  */
+      align = MAX ((DECL_ALIGN (decl) / BITS_PER_UNIT),
+		   int_size_in_bytes (TREE_TYPE (decl)) > MIN_UNITS_PER_WORD
+		   ? UNITS_PER_FP_WORD : MIN_UNITS_PER_WORD);
+      /* DATA_ALIGNMENT may exceed DECL_ALIGN; match it so the csect
+	 isn't more weakly aligned than the data placed inside it.  */
+      align = MAX (align,
+		   DATA_ALIGNMENT (TREE_TYPE (decl), DECL_ALIGN (decl))
+		   / BITS_PER_UNIT);
+    }
 
   return flags | (exact_log2 (align) & SECTION_ENTSIZE);
 }
