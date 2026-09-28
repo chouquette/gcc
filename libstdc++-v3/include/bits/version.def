@@ -625,6 +625,12 @@ ftms = {
     cxx11abi = yes; // std::chrono::tzdb requires cxx11 std::string
   };
   values = {
+    v = 201803;
+    cxxmin = 20;
+    hosted = yes;
+    extra_cond = "!_GLIBCXX_USE_DUAL_ABI";
+  };
+  values = {
     v = 201611;
     cxxmin = 17;
     hosted = yes;
