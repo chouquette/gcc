@@ -90,10 +90,13 @@ AR_FLAGS_FOR_TARGET = -X32_64
 
 # Build and install AIX-style FAT libraries
 ifeq ($(MULTIBUILDTOP),)
+ifneq ($(MULTIDIRS),)
 BITS=$(shell if test -z "`$(CC) -x c -E /dev/null -g3 -o - | grep 64BIT`" ; then \
     echo '64'; else echo '32'; fi)
 ARX=$(shell echo $(AR) | sed -e 's/-X[^ ]*//g')
+endif
 all: all-multi
+ifneq ($(MULTIDIRS),)
 ifeq ($(enable_shared),yes)
 	$(ARX) -X$(BITS) x ../ppc$(BITS)/libgcc/libgcc_s.a shr.o
 	$(ARX) -X$(BITS) rc ./libgcc_s.a shr.o
@@ -116,8 +119,11 @@ ifeq ($(enable_gcov),yes)
 	$(ARX) -X$(BITS) rc ../pthread/libgcc/libgcov.a \
 	    $(addprefix ../pthread/ppc$(BITS)/libgcc/,$(libgcov-objects))
 endif
+endif
 	$(MAKE) install-leaf DESTDIR=$(gcc_objdir) \
 	    slibdir= libsubdir= MULTIOSDIR=$(MULTIDIR)
+ifneq ($(MULTIDIRS),)
 	cp ../pthread/libgcc/libgcc_s.a ../../gcc/pthread/
 	cp ../pthread/libgcc/libgcc_eh.a ../../gcc/pthread/
+endif
 endif
