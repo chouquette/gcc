@@ -286,3 +286,9 @@
 "%{m32:-maix32} %<m32",			\
 "%{fstack-protector*: %<fstack-protector* \
    %estack-protector not supported on AIX}"
+
+/* GNU ld is single-pass over XCOFF archives, so libc must already be
+   linked before later libgcc/libstdc++ members that reference it.
+   Prepend an extra libc pass ahead of the default sequence.  */
+#undef LINK_GCC_C_SEQUENCE_SPEC
+#define LINK_GCC_C_SEQUENCE_SPEC "%{!nolibc:%L} %G %{!nolibc:%L %G}"
