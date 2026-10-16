@@ -6,7 +6,7 @@ BITS=$(shell if test -z "`$(CC) -x c -E /dev/null -g3 -o - | grep 64BIT`" ; then
     echo '64'; else echo '32'; fi)
 ARX=$(shell echo $(AR) | sed -e 's/-X[^ ]*//g')
 endif
-all-local:
+all-local: $(PACKAGE).la
 	-rm -f .libs/$(PACKAGE).a ../pthread/$(PACKAGE)/.libs/$(PACKAGE).a
 	$(AR) rc .libs/$(PACKAGE).a .libs/$(PACKAGE).so.$(MAJOR)
 ifneq ($(MULTIDIRS),)
