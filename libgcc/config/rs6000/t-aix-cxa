@@ -5,6 +5,10 @@ LIB2ADDEH += $(srcdir)/config/rs6000/cxa_atexit.c \
 
 LIB2ADD_ST += $(srcdir)/config/rs6000/aixinitfini.c
 
+# Private memcpy/memmove/bcopy so shr.o doesn't pull IBM libc's
+# moveeq_64.o, whose memmove causes a SIGILL via a bad glink stub.
+LIB2ADD += $(srcdir)/config/rs6000/aix-memfns.c
+
 SHLIB_MAPFILES += $(srcdir)/config/rs6000/libgcc-aix-cxa.ver
 
 crtdbase.o: $(srcdir)/config/rs6000/crtdbase.S
